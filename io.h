@@ -46,14 +46,14 @@ public:
     * @return Двумерный вектор с данными.
     * @throw InputOutputException Если не удалось открыть входной файл для чтения.
     */
-    std::vector<std::vector<unsigned int>> read();
+    std::vector<std::vector<uint64_t>> read();
 
     /**
     * @brief Метод для записи данных в файл.
     * @param data Вектор данных для записи.
     * @throw InputOutputException Если не удалось открыть выходной файл для записи.
     */
-    void write(const std::vector<unsigned int>& data);
+    void write(const std::vector<uint64_t>& data);
 
 private:
     std::string config; ///< Путь к файлу конфигурации.

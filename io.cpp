@@ -50,7 +50,7 @@ std::array<std::string, 2> InputOutputManager::conf()
     return credentials;
 }
 
-std::vector<std::vector<unsigned int>> InputOutputManager::read()
+std::vector<std::vector<uint64_t>> InputOutputManager::read()
 {
     std::ifstream input_file(this->input);
     if (!input_file.is_open())
@@ -62,7 +62,7 @@ std::vector<std::vector<unsigned int>> InputOutputManager::read()
     uint32_t num_vectors;
     input_file >> num_vectors;
 
-    std::vector<std::vector<unsigned int>> data(num_vectors);
+    std::vector<std::vector<uint64_t>> data(num_vectors);
 
     // Чтение каждого вектора
     for (uint32_t i = 0; i < num_vectors; ++i)
@@ -72,7 +72,7 @@ std::vector<std::vector<unsigned int>> InputOutputManager::read()
         input_file >> vector_size;
 
         // Чтение значений вектора
-        std::vector<unsigned int> vec(vector_size);
+        std::vector<uint64_t> vec(vector_size);
         for (uint32_t j = 0; j < vector_size; ++j)
         {
             input_file >> vec[j]; // Чтение в десятичном формате
@@ -103,7 +103,7 @@ std::vector<std::vector<unsigned int>> InputOutputManager::read()
 }
 
 // Метод для записи числовых данных в текстовый файл
-void InputOutputManager::write(const std::vector<unsigned int> &data)
+void InputOutputManager::write(const std::vector<uint64_t> &data)
 {
     std::ofstream output_file(this->output);
     if (!output_file.is_open())

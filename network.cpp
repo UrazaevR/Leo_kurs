@@ -100,10 +100,10 @@ void NetworkManager::auth(const std::string &login, const std::string &password)
     }
 }
 
-std::vector<unsigned int> NetworkManager::calc(const std::vector<std::vector<unsigned int>> &data)
+std::vector<uint64_t> NetworkManager::calc(const std::vector<std::vector<uint64_t>> &data)
 {
     // Передача количества векторов
-    unsigned int num_vectors = data.size();
+    uint64_t num_vectors = data.size();
     if (send(this->socket, &num_vectors, sizeof(num_vectors), 0) < 0)
     {
         throw NetworkException("Failed to send number of vectors", "NetworkManager.calc()");
@@ -112,22 +112,22 @@ std::vector<unsigned int> NetworkManager::calc(const std::vector<std::vector<uns
     // Передача каждого вектора
     for (const auto &vec : data)
     {
-        unsigned int vec_size = vec.size();
+        uint64_t vec_size = vec.size();
         if (send(this->socket, &vec_size, sizeof(vec_size), 0) < 0)
         {
             throw NetworkException("Failed to send vector size", "NetworkManager.calc()");
         }
-        if (send(this->socket, vec.data(), vec_size * sizeof(unsigned int), 0) < 0)
+        if (send(this->socket, vec.data(), vec_size * sizeof(uint64_t), 0) < 0)
         {
             throw NetworkException("Failed to send vector data", "NetworkManager.calc()");
         }
     }
 
     // Получение результатов
-    std::vector<unsigned int> results(num_vectors);
-    for (unsigned int i = 0; i < num_vectors; ++i)
+    std::vector<uint64_t> results(num_vectors);
+    for (uint64_t i = 0; i < num_vectors; ++i)
     {
-        if (recv(this->socket, &results[i], sizeof(unsigned int), 0) < 0)
+        if (recv(this->socket, &results[i], sizeof(uint64_t), 0) < 0)
         {
             throw NetworkException("Failed to receive result", "NetworkManager.calc()");
         }

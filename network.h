@@ -60,7 +60,7 @@ public:
     * @return Результаты обработки данных.
     * @throw NetworkException Если не удалось отправить или получить данные.
     */
-    std::vector<unsigned int> calc(const std::vector<std::vector<unsigned int>> &data);
+    std::vector<uint64_t> calc(const std::vector<std::vector<uint64_t>> &data);
 
     /**
     * @brief Метод для закрытия сетевого подключения.
