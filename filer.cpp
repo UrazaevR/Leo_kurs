@@ -6,11 +6,11 @@
 #include <cstring>
 #include <type_traits>
 
-// Функция для печати справки
+// Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї ГЇГҐГ·Г ГІГЁ Г±ГЇГ°Г ГўГЄГЁ
 void print_help() {
     std::cout << "Usage: filer -dt DATA_TYPE -ft FILE_TYPE -n COUNT -s SIZE -p PATH\n"
         << "Options:\n"
-        << "  -dt DATA_TYPE   Type of data (e.g., uint16_t, int16_t, uint32_t, int32_t, uint64_t, int64_t, float, double)\n"
+        << "  -dt DATA_TYPE   Type of data (e.g., uint16_t, int16_t, uint64_t, int32_t, uint64_t, int64_t, float, double)\n"
         << "  -ft FILE_TYPE   File type: 'bin' or 'txt' (default: bin)\n"
         << "  -n COUNT        Number of vectors (default: 3)\n"
         << "  -s SIZE         Size of each vector (default: 3)\n"
@@ -18,7 +18,7 @@ void print_help() {
         << "  -h              Show this help message and exit\n";
 }
 
-// Функция для генерации случайного значения в диапазоне типа данных
+// Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї ГЈГҐГ­ГҐГ°Г Г¶ГЁГЁ Г±Г«ГіГ·Г Г©Г­Г®ГЈГ® Г§Г­Г Г·ГҐГ­ГЁГї Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ ГІГЁГЇГ  Г¤Г Г­Г­Г»Гµ
 template <typename T>
 T generate_value() {
     std::random_device rd;
@@ -38,9 +38,9 @@ T generate_value() {
     return value;
 }
 
-// Функция для генерации случайного вектора
+// Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї ГЈГҐГ­ГҐГ°Г Г¶ГЁГЁ Г±Г«ГіГ·Г Г©Г­Г®ГЈГ® ГўГҐГЄГІГ®Г°Г 
 template <typename T>
-std::vector<T> generate_vector(uint32_t size) {
+std::vector<T> generate_vector(uint64_t size) {
     std::vector<T> vec(size);
     for (auto& v : vec) {
         v = generate_value<T>();
@@ -48,28 +48,28 @@ std::vector<T> generate_vector(uint32_t size) {
     return vec;
 }
 
-// Функция для записи в бинарный файл
+// Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї Г§Г ГЇГЁГ±ГЁ Гў ГЎГЁГ­Г Г°Г­Г»Г© ГґГ Г©Г«
 template <typename T>
-void write_binary(std::ofstream& outfile, uint32_t count, uint32_t size) {
+void write_binary(std::ofstream& outfile, uint64_t count, uint64_t size) {
     outfile.write(reinterpret_cast<const char*>(&count), sizeof(count));
-    for (uint32_t i = 0; i < count; ++i) {
+    for (uint64_t i = 0; i < count; ++i) {
         auto vec = generate_vector<T>(size);
-        uint32_t vec_size = vec.size();
+        uint64_t vec_size = vec.size();
         outfile.write(reinterpret_cast<const char*>(&vec_size), sizeof(vec_size));
         outfile.write(reinterpret_cast<const char*>(vec.data()), vec.size() * sizeof(T));
     }
 }
 
-// Функция для записи в текстовый файл
+// Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї Г§Г ГЇГЁГ±ГЁ Гў ГІГҐГЄГ±ГІГ®ГўГ»Г© ГґГ Г©Г«
 template <typename T>
-void write_text(std::ofstream& outfile, uint32_t count, uint32_t size) {
+void write_text(std::ofstream& outfile, uint64_t count, uint64_t size) {
     outfile << count << "\n";
-    for (uint32_t i = 0; i < count; ++i) {
+    for (uint64_t i = 0; i < count; ++i) {
         auto vec = generate_vector<T>(size);
-        uint32_t vec_size = vec.size();
-        outfile << vec_size << "\n"; // Записываем размер вектора перед каждым вектором
+        uint64_t vec_size = vec.size();
+        outfile << vec_size << "\n"; // Г‡Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Г°Г Г§Г¬ГҐГ° ГўГҐГЄГІГ®Г°Г  ГЇГҐГ°ГҐГ¤ ГЄГ Г¦Г¤Г»Г¬ ГўГҐГЄГІГ®Г°Г®Г¬
         for (const auto& v : vec) {
-            outfile << v << " "; // Записываем значения без дополнения нулями
+            outfile << v << " "; // Г‡Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Г§Г­Г Г·ГҐГ­ГЁГї ГЎГҐГ§ Г¤Г®ГЇГ®Г«Г­ГҐГ­ГЁГї Г­ГіГ«ГїГ¬ГЁ
         }
         outfile << "\n";
     }
@@ -77,9 +77,9 @@ void write_text(std::ofstream& outfile, uint32_t count, uint32_t size) {
 
 int main(int argc, char* argv[]) {
     std::string data_type;
-    std::string file_type = "bin"; // Значение по умолчанию
-    uint32_t count = 3;            // Значение по умолчанию
-    uint32_t size = 3;             // Значение по умолчанию
+    std::string file_type = "bin"; // Г‡Г­Г Г·ГҐГ­ГЁГҐ ГЇГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ
+    uint64_t count = 3;            // Г‡Г­Г Г·ГҐГ­ГЁГҐ ГЇГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ
+    uint64_t size = 3;             // Г‡Г­Г Г·ГҐГ­ГЁГҐ ГЇГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ
     std::string file_path;
 
     for (int i = 1; i < argc; ++i) {
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Установка значения по умолчанию для file_path, если оно не было установлено
+    // Г“Г±ГІГ Г­Г®ГўГЄГ  Г§Г­Г Г·ГҐГ­ГЁГї ГЇГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ Г¤Г«Гї file_path, ГҐГ±Г«ГЁ Г®Г­Г® Г­ГҐ ГЎГ»Г«Г® ГіГ±ГІГ Г­Г®ГўГ«ГҐГ­Г®
     if (file_path.empty()) {
         file_path = "input." + file_type;
     }
@@ -138,8 +138,8 @@ int main(int argc, char* argv[]) {
         else if (data_type == "int16_t") {
             write_binary<int16_t>(outfile, count, size);
         }
-        else if (data_type == "uint32_t") {
-            write_binary<uint32_t>(outfile, count, size);
+        else if (data_type == "uint64_t") {
+            write_binary<uint64_t>(outfile, count, size);
         }
         else if (data_type == "int32_t") {
             write_binary<int32_t>(outfile, count, size);
@@ -168,8 +168,8 @@ int main(int argc, char* argv[]) {
         else if (data_type == "int16_t") {
             write_text<int16_t>(outfile, count, size);
         }
-        else if (data_type == "uint32_t") {
-            write_text<uint32_t>(outfile, count, size);
+        else if (data_type == "uint64_t") {
+            write_text<uint64_t>(outfile, count, size);
         }
         else if (data_type == "int32_t") {
             write_text<int32_t>(outfile, count, size);

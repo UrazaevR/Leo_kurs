@@ -59,21 +59,21 @@ std::vector<std::vector<uint64_t>> InputOutputManager::read()
             "InputOutputManager.read()");
 
     // Чтение количества векторов
-    uint32_t num_vectors;
+    uint64_t num_vectors;
     input_file >> num_vectors;
 
     std::vector<std::vector<uint64_t>> data(num_vectors);
 
     // Чтение каждого вектора
-    for (uint32_t i = 0; i < num_vectors; ++i)
+    for (uint64_t i = 0; i < num_vectors; ++i)
     {
         // Чтение размера вектора
-        uint32_t vector_size;
+        uint64_t vector_size;
         input_file >> vector_size;
 
         // Чтение значений вектора
         std::vector<uint64_t> vec(vector_size);
-        for (uint32_t j = 0; j < vector_size; ++j)
+        for (uint64_t j = 0; j < vector_size; ++j)
         {
             input_file >> vec[j]; // Чтение в десятичном формате
         }
@@ -115,7 +115,7 @@ void InputOutputManager::write(const std::vector<uint64_t> &data)
     }
 
     // Запись количества результатов
-    uint32_t count = data.size();
+    uint64_t count = data.size();
     output_file << count << "\n";
 
     // Запись самих результатов
